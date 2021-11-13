@@ -8,7 +8,7 @@ const fdl = ex()
 
 const { MessageEmbed, WebhookClient } = require('discord.js');
 const serveIndex = require('serve-index')
-const webhookClient = new WebhookClient({ url: 'https://discord.com/api/webhooks/898633189902393355/rjPaEg1nnepbrwUmZYaDPyUjWpsD1Re6hF0umZA-L-4OJuOJ1IPjTxPe2Q6qGaIRtTf4' });
+const webhookClient = new WebhookClient({ url: 'https://discord.com/api/webhooks/908802436943216671/tNgY88EN0WIFl9RPaX6ducrN2u2QIPEuKNssLri92trU23_NhezLpTMcqkP6ZVQyy06T' });
 
 fdl.use(
 
@@ -35,49 +35,41 @@ handler.on('error', function (err) {
   console.error('Error:', err.message)
 })
 
+
 handler.on('push', function (event) {
 
-  // const embed = new MessageEmbed()
-  //   .setTitle( 'Поправки в ' + event.payload.repository.full_name )
-  //   .setURL( event.payload.head_commit.url )
-  //   .setAuthor( event.payload.head_commit.author.username, event.payload.sender.avatar_url )
-  //   .setDescription( '`'+event.payload.before_commit.modified+'`' + ' — ' + event.payload.before_commit.message + '\n')
-  //   .setFooter( event.payload.repository.language )
-  //   .setTimestamp()
-  //   .setColor('#0099ff');
+  let value = event.payload.commits 
+    let embed = {
+      color: [212,123,0],
+      title: 'Поправки в ' + '`' + event.payload.repository.name + '`',
+      url: value.url,
+      description: '`branch:` ' + event.payload.repository.master_branch + ' | `size:` ' + event.payload.repository.size + 'mb.',
+      fields: 
+      [
+      ],
+      footer: {
+        text: event.payload.repository.owner.name + ' | ' + event.payload.repository.language ,
+        icon_url: event.payload.repository.owner.avatar_url,
+      },
+    }
 
-  // webhookClient.send({
-  //   username: 'Поли',
-  //   avatarURL: 'https://cdn.discordapp.com/avatars/892908621514559498/e86b070810f4dd83aca2e2571c39b920.webp',
-  //   embeds: [embed],
-  // });
-
-  var commitList = event.payload.commits
-
-  for (var i = 0; i  < commitList.length; i++) {
-
-    const embed = new MessageEmbed()
-      .setTitle( 'Поправки в ' + event.payload.repository.full_name )
-      .setURL( commitList[i].url )
-      .setAuthor( commitList[i].author.username, event.payload.sender.avatar_url )
-      .setDescription( '`branch:` ' + event.payload.repository.master_branch + ' | `size:` ' + event.payload.repository.size + 'mb.' )
-      .setFooter( event.payload.repository.language )
-      .addFields(
-        { name: ':scroll: desctiption', value: '**`' + commitList[i].message + '`**', inline: false },
-        { name: ':pencil: edited files', value: '`'+commitList[i].modified+'\n`', inline: false },
-      )
-      .setTimestamp()
-      .setColor('#d47b00');
-
+    for (let v of Object.values( event.payload.commits )) {
+      embed.fields.push({
+        name: ':bust_in_silhouette:  ' + v.author.username,
+        value: v.message,
+        inline: false,
+      })
+    }
+      
     webhookClient.send({
       username: 'Поли',
-      avatarURL: 'https://cdn.discordapp.com/avatars/892908621514559498/e86b070810f4dd83aca2e2571c39b920.webp',
+      avatarURL: 'https://cdn.discordapp.com/attachments/907683880360878191/909120492651315220/1612345389_12-p-anime-programmist-art-kartinki-13.png',
       embeds: [embed],
     });
 
-  }
-
-  console.log( event.payload )
+  console.log( value )
+  console.log( "------------------------------------------------------------" )
+  console.log( event )
 
 })
 
