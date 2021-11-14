@@ -55,7 +55,7 @@ handler.on('push', function (event) {
 
     for (let v of Object.values( event.payload.commits )) {
       embed.fields.push({
-        name: ':bust_in_silhouette:  ' + v.author.username,
+        name: v.author.username + '  `' + v.id.substring(0, 7) + '`',
         value: v.message,
         inline: false,
       })
@@ -67,9 +67,7 @@ handler.on('push', function (event) {
       embeds: [embed],
     });
 
-  console.log( value )
-  console.log( "------------------------------------------------------------" )
-  console.log( event )
+  console.log( event.payload )
 
 })
 
