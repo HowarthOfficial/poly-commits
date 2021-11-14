@@ -60,7 +60,7 @@ handler.on('push', function (event) {
         inline: false,
       })
     }
-      
+      // 
     webhookClient.send({
       username: 'Поли',
       avatarURL: 'https://cdn.discordapp.com/attachments/907683880360878191/909120492651315220/1612345389_12-p-anime-programmist-art-kartinki-13.png',
