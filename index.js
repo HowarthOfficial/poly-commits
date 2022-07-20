@@ -29,7 +29,7 @@ http.createServer(function (req, res) {
     res.statusCode = 404
     res.end('no such location')
   })
-}).listen(5050)
+}).listen(5056)
 
 handler.on('error', function (err) {
   console.error('Error:', err.message)
@@ -41,9 +41,8 @@ handler.on('push', function (event) {
   let value = event.payload.commits 
     let embed = {
       color: [212,123,0],
-      title: 'Поправки в ' + '`' + event.payload.repository.name + '`',
+      title: 'Поправки в ' + '`' + event.payload.repository.name + ' >> ' + event.payload.repository.master_branch + '`',
       url: value.url,
-      description: '`branch:` ' + event.payload.repository.master_branch + ' | `size:` ' + event.payload.repository.size + 'mb.',
       fields: 
       [
       ],
@@ -67,20 +66,10 @@ handler.on('push', function (event) {
       embeds: [embed],
     });
 
+  // console.log( event.payload.commits.author )
+
+})
+
+handler.on('merged', function (event) {
   console.log( event.payload )
-
 })
-
-handler.on('issues', function (event) {
-  console.log('Received an issue event for %s action=%s: #%d %s',
-    event.payload.repository.name,
-    event.payload.action,
-    event.payload.issue.number,
-    event.payload.issue.title)
-})
-
-// handler.on('push', function (event) {
-//   console.log('Received a push event for %s',
-//     event.payload.head_commit.author.name )
-// })
-
